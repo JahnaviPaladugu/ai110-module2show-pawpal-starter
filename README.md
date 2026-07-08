@@ -160,3 +160,27 @@ Describe your app in numbered steps so a reader can follow along without watchin
 5. <!-- Add more steps as needed -->
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or link to a demo video here -->
+
+
+Testing PawPal+ :
+> Python Command to run: python -m pytest
+> Tests overview: 
+The tests cover sorting logic using tasks that start at different times of the day and checks to make sure they are sorted correctly. 
+It also covers recurrence logic where a new task that is set to reoccur will generate a new task for the next day at the same time
+Lastly, the tests cover conflict detection to ensure that warning messages are generated when there are 2 tasks that have overlapping time. 
+
+
+
+> Terminal Output: 
+python -m pytest
+========================================================================================================================== test session starts ==========================================================================================================================
+platform win32 -- Python 3.13.0, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Users\jahna\OneDrive\Desktop\Codepath\AI110\Week4\ai110-module2show-pawpal-starter
+plugins: anyio-4.13.0
+collected 10 items                                                                                                                                                                                                                                                       
+
+tests\test_pawpal.py ..........                                                                                                                                                                                                                                    [100%]
+
+========================================================================================================================== 10 passed in 0.05s ===========================================================================================================================
+
+> Confidence Level: 4 because all the test cases have passed and it thought of all the different test cases that I have also thought of. I didn't give it a 5 becuase we might've missed some bugs/logic and it overcomplicated some of the logic for the alorithms which could have been simplified. And, I believe overcomplicating simple logic may lead to more mistakes when further adding new features to the application.  
