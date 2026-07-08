@@ -54,6 +54,65 @@ Paste a sample of your app's CLI or Streamlit output here so a reader can see wh
 #   ...
 ```
 
+Sample Output : 
+====================================================
+  PAWPAL+  --  TODAY'S SCHEDULE
+====================================================
+
+  Owner : Alex Rivera  (alex@example.com)
+  Window: 17:00 - 21:00  (240 min available)
+  Pets  : Biscuit, Mochi
+
+====================================================
+  SCHEDULE
+====================================================
+  TIME   TASK                    DURATIONPRIORITY PET           
+  --------------------------------------------------------------
+  17:00  Heartworm Med           5 min   high     Biscuit       
+  17:05  Wet Food Feeding        5 min   high     Mochi         
+  17:10  Flea Treatment          5 min   high     Mochi         
+  17:15  Dinner Feeding          10 min  high     Biscuit       
+  17:25  Evening Walk            30 min  high     Biscuit       
+  17:55  Puzzle Feeder           15 min  medium   Mochi         
+  18:10  Fetch Play              20 min  medium   Biscuit       
+  18:30  Brush Coat              15 min  low      Biscuit       
+  --------------------------------------------------------------
+  Total: 105 min scheduled  |  135 min unused
+
+
+====================================================
+  REASONING
+====================================================
+Daily plan for Alex Rivera:
+
+  17:00  Heartworm Med (Biscuit)  ->  priority=high, preferred=any, duration=5 min
+  17:05  Wet Food Feeding (Mochi)  ->  priority=high, preferred=evening, duration=5 min
+  17:10  Flea Treatment (Mochi)  ->  priority=high, preferred=any, duration=5 min
+  17:15  Dinner Feeding (Biscuit)  ->  priority=high, preferred=evening, duration=10 min
+  17:25  Evening Walk (Biscuit)  ->  priority=high, preferred=evening, duration=30 min
+  17:55  Puzzle Feeder (Mochi)  ->  priority=medium, preferred=evening, duration=15 min
+  18:10  Fetch Play (Biscuit)  ->  priority=medium, preferred=evening, duration=20 min
+  18:30  Brush Coat (Biscuit)  ->  priority=low, preferred=evening, duration=15 min
+
+Scheduled 105 min out of 240 min available (135 min unused).
+
+====================================================
+  TASK SUMMARY BY PET
+====================================================
+
+  Biscuit (Golden Retriever)
+    Total tasks   : 5
+    Scheduled today: 5
+    Still pending : 5
+
+  Mochi (Scottish Fold)
+    Total tasks   : 4
+    Scheduled today: 3
+    Still pending : 4
+
+
+
+
 ## 🧪 Testing PawPal+
 
 ```bash
@@ -69,6 +128,15 @@ Sample test output:
 ```
 # Paste your pytest output here
 ```
+python -m pytest
+========================================================================================================================== test session starts ==========================================================================================================================
+platform win32 -- Python 3.13.0, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Redacted\Codepath\AI110\Week4\ai110-module2show-pawpal-starter
+plugins: anyio-4.13.0
+collected 2 items                                                                                                                                                                                                                                                        
+
+tests\test_pawpal.py ..                                                                                                                                                                                                                                            [100%]
+
 
 ## 📐 Smarter Scheduling
 
