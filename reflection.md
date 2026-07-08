@@ -24,6 +24,8 @@
 - Did your design change during implementation?
 - If yes, describe at least one change and why you made it.
 
+    Yes, I asked AI agent to review my design and check if there are any flaws. One of the flaws that it identified is that Owner and pet relationship is not enforced. Owner has a list of all the pets it owns but pet doesn't have what its owner is so If we ever need "which owner does this pet belong to?", we would have to search all owners. I missed this logic initially as I was thinking of one way relation where owners have multiple pets but not considering the pet so I updated the design to include pet owner attribute in pet class.
+
 ---
 
 ## 2. Scheduling Logic and Tradeoffs
@@ -37,6 +39,8 @@
 
 - Describe one tradeoff your scheduler makes.
 - Why is that tradeoff reasonable for this scenario?
+
+I asked AI agent to simplify the algorithm for Detecting task conflicts and one of the tradeoffs that I saw is that the simplified version doesn't check for overlaps between tasks that are non adjacent. For example, Task A start from 1-3, task B starts from 2-2:30 and task C starts from 2:30 to 4. In this case, Task A and Task B has scehduling conflicts but it doesn't show that task A and Task C have conflicts because they are sorted using task start time and Task A and C are not next to each other in the list.
 
 ---
 

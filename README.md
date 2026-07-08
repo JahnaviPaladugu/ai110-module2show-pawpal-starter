@@ -144,10 +144,10 @@ tests\test_pawpal.py ..                                                         
 
 | Feature | Method(s) | Notes |
 |---------|-----------|-------|
-| Task sorting | | e.g., by priority, duration |
-| Filtering | | e.g., skip tasks if time runs out |
-| Conflict handling | | e.g., overlapping time slots |
-| Recurring tasks | | e.g., daily vs. weekly |
+| Task sorting |sort_tasks, sort_by_time(tasks) | e.g., by priority, duration |
+| Filtering |filter_by_time_window(tasks),filter_tasks(tasks, completed=, pet_name=)  | e.g., skip tasks if time runs out |
+| Conflict handling | detect_conflicts(slots) | e.g., overlapping time slots |
+| Recurring tasks | mark_done(),spawn_next(), reset() | e.g., daily vs. weekly |
 
 ## 📸 Demo Walkthrough
 
