@@ -1,0 +1,76 @@
+classDiagram
+    class Owner {
+        +str name
+        +str email
+        +str available_start   %% "HH:MM" 24-hour
+        +str available_end     %% "HH:MM" 24-hour
+        +list~Pet~ pets
+        +add_pet(pet: Pet) None
+        +remove_pet(pet_name: str) None
+        +get_pets() list~Pet~
+        +get_all_tasks() list~tuple~   %% NEW: (Pet, Task) pairs across all pets
+    }
+
+    class Pet {
+        +str name
+        +str species
+        +str breed
+        +int age_years
+        +list~Task~ tasks
+        +Owner owner               %% NEW: back-reference set by Owner.add_pet()
+        +add_task(task: Task) None
+        +remove_task(task_name: str) None
+        +get_tasks() list~Task~
+        +get_pending_tasks() list~Task~
+    }
+
+    class Task {
+        +str name
+        +str category              %% walk | feed | meds | groom | enrichment
+        +int duration_min
+        +str priority              %% high | medium | low
+        +str preferred_time        %% morning | afternoon | evening | any
+        +bool is_recurring
+        +bool is_completed
+        +str start_time            %% NEW: "HH:MM" stamped by DailyPlanner
+        +str pet_name              %% NEW: stamped by DailyPlanner
+        +str recurrence            %% NEW: none | daily | weekly
+        +str due_date              %% NEW: "YYYY-MM-DD"
+        +str forced_start          %% NEW: override slot to specific "HH:MM"
+        +mark_done() None
+        +reset() None
+        +spawn_next() Task         %% NEW: creates next occurrence of a recurring task
+        +to_dict() dict
+    }
+
+    class ScheduledSlot {
+        %% NEW CLASS — output model produced by DailyPlanner.generate_schedule()
+        +str start_time
+        +Task task
+        +str pet_name
+        +str reason
+    }
+
+    class DailyPlanner {
+        +Owner owner
+        +Pet pet                   %% optional — None means all owner pets
+        +int available_minutes
+        +list~ScheduledSlot~ schedule   %% was list~dict~ in draft
+        +generate_schedule() list~ScheduledSlot~
+        +sort_tasks() list~Task~
+        +sort_by_time(tasks: list~Task~) list~Task~          %% NEW
+        +filter_by_time_window(tasks: list~Task~) list~Task~
+        +filter_tasks(tasks: list~Task~) list~Task~          %% NEW
+        +detect_conflicts(slots: list~ScheduledSlot~) list~str~  %% NEW
+        +explain_plan() str
+        +display_schedule() str
+    }
+
+    Owner "1"   *--  "1..*" Pet          : owns
+    Pet   "1"   *--  "0..*" Task         : has
+    Pet   "0..*" --> "1"    Owner        : back-ref to owner
+    DailyPlanner "1" --> "1"    Owner    : plans for
+    DailyPlanner "1" --> "0..1" Pet      : optionally scoped to single pet
+    DailyPlanner "1" ..>  "0..*" Task   : reads and orders
+    DailyPlanner "1" -->  "0..*" ScheduledSlot : produces
+    ScheduledSlot "1" --> "1"    Task   : wraps

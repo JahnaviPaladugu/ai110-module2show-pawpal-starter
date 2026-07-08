@@ -7,6 +7,8 @@ st.set_page_config(page_title="PawPal+", page_icon="🐾", layout="centered")
 
 SAVE_FILE = "pawpal_data.json"
 
+_PRIORITY_ICON = {"high": "🔴", "medium": "🟡", "low": "🟢"}
+
 # ---------------------------------------------------------------------------
 # Persistence helpers
 # ---------------------------------------------------------------------------
@@ -192,17 +194,19 @@ else:
             _save(owner)
             st.success(f"Added '{new_task.name}' to {pet_obj.name}.")
 
-    # Show all tasks per pet
+    # Show all tasks per pet, sorted by priority then duration
+    _PORDER = {"high": 0, "medium": 1, "low": 2}
     for pet in owner.get_pets():
         tasks = pet.get_tasks()
         if tasks:
+            sorted_tasks = sorted(tasks, key=lambda t: (_PORDER[t.priority], t.duration_min))
             with st.expander(f"{pet.name}'s tasks ({len(tasks)} total)"):
-                for t in tasks:
+                for t in sorted_tasks:
                     status = "✅" if t.is_completed else "⬜"
+                    icon   = _PRIORITY_ICON[t.priority]
                     st.markdown(
-                        f"{status} **{t.name}** — {t.category}, "
-                        f"{t.duration_min} min, priority: {t.priority}, "
-                        f"preferred: {t.preferred_time}"
+                        f"{status} {icon} **{t.name}** — {t.category}, "
+                        f"{t.duration_min} min, preferred: {t.preferred_time}"
                     )
 
 # ===========================================================================
@@ -230,34 +234,48 @@ else:
         planner = st.session_state.planner
         slots   = st.session_state.schedule
 
+        # --- Sort slots chronologically using the scheduler's sort_by_time() ---
+        sorted_tasks  = planner.sort_by_time([s.task for s in slots])
+        task_to_slot  = {id(s.task): s for s in slots}
+        sorted_slots  = [task_to_slot[id(t)] for t in sorted_tasks]
+
+        total_min = sum(s.task.duration_min for s in sorted_slots)
         st.success(
-            f"Scheduled {len(slots)} task(s) — "
-            f"{sum(s.task.duration_min for s in slots)} min used of "
-            f"{planner.available_minutes} min available."
+            f"Scheduled {len(sorted_slots)} task(s) — "
+            f"{total_min} min used of {planner.available_minutes} min available."
         )
 
-        # Schedule table
+        # --- Conflict detection ---
+        conflicts = planner.detect_conflicts(sorted_slots)
+        if conflicts:
+            st.error(f"⚠️ {len(conflicts)} scheduling conflict(s) detected:")
+            for msg in conflicts:
+                st.warning(msg)
+        else:
+            st.success("✅ No scheduling conflicts detected.")
+
+        # --- Sorted schedule table ---
         st.markdown("#### Schedule")
         rows = [
             {
                 "Time":     s.start_time,
-                "Task":     s.task.name,
+                "Task":     f"{_PRIORITY_ICON[s.task.priority]} {s.task.name}",
                 "Pet":      s.pet_name,
                 "Category": s.task.category,
                 "Duration": f"{s.task.duration_min} min",
                 "Priority": s.task.priority,
             }
-            for s in slots
+            for s in sorted_slots
         ]
         st.table(rows)
 
-        # Reasoning
+        # --- Reasoning ---
         with st.expander("Why was this plan chosen?"):
             st.text(planner.explain_plan())
 
-        # Mark tasks done
+        # --- Mark tasks done ---
         st.markdown("#### Mark tasks as done")
-        for slot in slots:
+        for slot in sorted_slots:
             label = f"{slot.start_time}  {slot.task.name} ({slot.pet_name})"
             if st.checkbox(label, value=slot.task.is_completed, key=f"done_{slot.task.name}_{slot.pet_name}"):
                 slot.task.mark_done()

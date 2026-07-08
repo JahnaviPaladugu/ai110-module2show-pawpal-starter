@@ -1,9 +1,88 @@
 {
   "owner": {
-    "name": "d",
-    "email": "d",
+    "name": "jahnavi",
+    "email": "jahnavi@gmail.com",
     "available_start": "17:00",
     "available_end": "21:00"
   },
-  "pets": []
+  "pets": [
+    {
+      "name": "cookie",
+      "species": "dog",
+      "breed": "dog",
+      "age_years": 1,
+      "tasks": [
+        {
+          "name": "walk",
+          "category": "walk",
+          "duration_min": 20,
+          "priority": "high",
+          "preferred_time": "morning",
+          "is_recurring": true,
+          "is_completed": false,
+          "start_time": "",
+          "pet_name": "",
+          "recurrence": "none",
+          "due_date": "",
+          "forced_start": ""
+        },
+        {
+          "name": "play",
+          "category": "enrichment",
+          "duration_min": 30,
+          "priority": "low",
+          "preferred_time": "evening",
+          "is_recurring": true,
+          "is_completed": false,
+          "start_time": "17:00",
+          "pet_name": "cookie",
+          "recurrence": "none",
+          "due_date": "",
+          "forced_start": ""
+        },
+        {
+          "name": "walk",
+          "category": "enrichment",
+          "duration_min": 30,
+          "priority": "low",
+          "preferred_time": "evening",
+          "is_recurring": true,
+          "is_completed": false,
+          "start_time": "17:30",
+          "pet_name": "cookie",
+          "recurrence": "none",
+          "due_date": "",
+          "forced_start": ""
+        },
+        {
+          "name": "walk",
+          "category": "enrichment",
+          "duration_min": 30,
+          "priority": "low",
+          "preferred_time": "evening",
+          "is_recurring": true,
+          "is_completed": false,
+          "start_time": "18:00",
+          "pet_name": "cookie",
+          "recurrence": "none",
+          "due_date": "",
+          "forced_start": ""
+        },
+        {
+          "name": "walk",
+          "category": "enrichment",
+          "duration_min": 29,
+          "priority": "low",
+          "preferred_time": "evening",
+          "is_recurring": true,
+          "is_completed": false,
+          "start_time": "",
+          "pet_name": "",
+          "recurrence": "none",
+          "due_date": "",
+          "forced_start": ""
+        }
+      ]
+    }
+  ]
 }
