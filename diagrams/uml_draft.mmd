@@ -1,0 +1,54 @@
+classDiagram
+    class Owner {
+        +str name
+        +str email
+        +str available_start   %% e.g. "17:00" (5 PM)
+        +str available_end     %% e.g. "21:00"
+        +list~Pet~ pets
+        +add_pet(pet: Pet) None
+        +remove_pet(pet_name: str) None
+        +get_pets() list~Pet~
+    }
+
+    class Pet {
+        +str name
+        +str species
+        +str breed
+        +int age_years
+        +list~Task~ tasks
+        +add_task(task: Task) None
+        +remove_task(task_name: str) None
+        +get_tasks() list~Task~
+        +get_pending_tasks() list~Task~
+    }
+
+    class Task {
+        +str name
+        +str category       %% walk | feed | meds | groom | enrichment
+        +int duration_min
+        +str priority       %% high | medium | low
+        +str preferred_time %% morning | afternoon | evening | any
+        +bool is_recurring
+        +bool is_completed
+        +mark_done() None
+        +reset() None
+        +to_dict() dict
+    }
+
+    class DailyPlanner {
+        +Owner owner
+        +Pet pet
+        +int available_minutes
+        +list~dict~ schedule
+        +generate_schedule() list~dict~
+        +sort_tasks() list~Task~
+        +filter_by_time_window(tasks: list~Task~) list~Task~
+        +explain_plan() str
+        +display_schedule() str
+    }
+
+    Owner "1" *-- "1..*" Pet : owns
+    Pet "1" *-- "0..*" Task : has
+    DailyPlanner "1" --> "1" Owner : plans for
+    DailyPlanner "1" --> "1" Pet : schedules
+    DailyPlanner "1" ..> "0..*" Task : reads and orders

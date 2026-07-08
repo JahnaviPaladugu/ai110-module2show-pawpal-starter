@@ -2,10 +2,22 @@
 
 ## 1. System Design
 
+3 Core Actions: 
+1. User should be able to enter pet info 
+2. User should be able to add tasks and their contraints
+3. User should be able to schedule the task for a certain time in the day.
+
 **a. Initial design**
 
 - Briefly describe your initial UML design.
+     An owner can have 1 or more pets
+     A pet has multiple tasks
+     
 - What classes did you include, and what responsibilities did you assign to each?
+1. Owner: Has owners information and contraints (ex, available time for pet care only after 5pm). Owners may have more than 1 pet.
+2. Pet: Stores pet infromation (breed, age, name), list of Tasks for this pet
+3. Task: Stored the pet activity type and Needs to have different attributes such as priority, duration, preferred time, etc
+4. DailyPlanner: Stores the daily plan and sorts the tasks by requirements and generates a daily schedule. Also should explain the reasoning behind the task selection.
 
 **b. Design changes**
 
